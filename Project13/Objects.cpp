@@ -30,7 +30,7 @@ std::string object::getName() const {
 	return mName;
 }
 
-int object::getindex() const {
+int object::getId() const {
 
 	return mId;
 }

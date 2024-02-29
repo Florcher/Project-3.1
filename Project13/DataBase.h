@@ -18,19 +18,30 @@ struct PROJECT_EXPORT DataBase {
 	}
 
 	void addType(const int typeId) {
-
-		std::map<int, std::shared_ptr<object>> pairObjectIdAndObject;
-		objects.emplace(typeId, pairObjectIdAndObject);
+	
 		std::vector<int> objectIds;
 		typeAndObjectIds.emplace(typeId, objectIds);
-		typeIds.push_back(typeId);
+		std::map<int, std::shared_ptr<object>> pairObjectIdAndObject;
+		objects.emplace(typeId, pairObjectIdAndObject);
+
+	}
+	
+	void addObject(const int typeId,const int objectId, std::shared_ptr<object> obj) {
+
+		if (!objects.at(typeId).contains(objectId)) {
+			addType(typeId);
+			objects.at(typeId).emplace(objectId, obj);
+			typeAndObjectIds.at(typeId).push_back(objectId);
+			typeIds.push_back(typeId);
+			countOfObjects++;
+		}
 	}
 
-	void addObject(const int typeId, const int objectId, std::shared_ptr<object> obj) {
-
-		objects.at(typeId).emplace(objectId, obj);
-		typeAndObjectIds.at(typeId).push_back(objectId);
+	void removeObject(const int typeId, const int objectId) {
+		objects.at(typeId).erase(objectId);
+		countOfObjects--;
 	}
+
 
 
 	std::map<int, std::vector<int>> typeAndObjectIds;

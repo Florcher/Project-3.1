@@ -24,7 +24,7 @@ public:
 	void setId(const int id);
 
 	std::string getName() const;
-	int getindex() const;
+	int getId() const;
 
 private:
 

@@ -42,16 +42,16 @@ std::shared_ptr<DataBase> Input::input(const std::string& fileName) {
 	auto objFactory = std::make_shared<ObjectFactory>();
 
 	int count = filer->readInt();
-	auto db = std::make_shared<DataBase>(count);
+	auto db = std::make_shared<DataBase>();
 
 	for (int i = 0; i < count; ++i) {
 
 		int objectId = filer->readInt();
 		auto name = filer->readString();
 		int typeId = filer->readInt();
-		objFactory->addObject(typeId, objectId);
-		auto obj = objFactory->getObject(typeId, objectId);
-		obj->setId(typeId);
+		/*objFactory->addObject(typeId, objectId);*/
+		auto obj = objFactory->getObject(typeId);
+		obj->setId(objectId);
 		obj->setName(name);
 		obj->input(filer);
 		db->addType(typeId);
