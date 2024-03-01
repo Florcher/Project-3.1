@@ -132,6 +132,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="OperationWithDataBase.cpp" />
+    <ClCompile Include="OperationWithObject.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="OperationWithDataBase.h" />
+    <ClInclude Include="OperationWithObject.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,14 +1,16 @@
 2
 1
-circleA
-3
+lineA
+1
 0
 0
 5
 2
-circleB
-3
+2
+lineB
+1
 10
 10
+5
 5
 

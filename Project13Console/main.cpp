@@ -1,64 +1,11 @@
-#include "Input.h"
-#include "Output.h"
-#include "ObjectFactory.h"
+//#include "Input.h"
+//#include "Output.h"
+//#include "ObjectFactory.h"
+#include <iostream>
 #include "Vector2D.h"
-
-struct OperationWithDataBase {
-
-};
-
-struct BaseOperationWithObject {
-
-	virtual void editId(const int id);
-	virtual void editName(const std::string& name);
-	virtual void remove();
-};
-
-struct OperationWithLine : BaseOperationWithObject {
-
-	OperationWithLine(std::shared_ptr<object> obj) {
-
-	};
-
-	void editStartPoint(const vector2D& point) {
-		
-	}
-	void editEndPoint(const vector2D& point);
-
-	std::shared_ptr<Line> line;
-};
-
-struct OpertationWithRectangle : BaseOperationWithObject {
-
-	void editLeftDownPoint(const vector2D& point);
-	void editLenth(const double lenth);
-	void editWidth(const double width);
-};
-
-struct OpertationWithCircle : BaseOperationWithObject {
-
-	void editCenter(const vector2D point);
-	void editRadius(const double radius);
-};
-
-struct OperationWithPolyline : BaseOperationWithObject {
-
-};
-
-
-
-
-std::shared_ptr<DataBase> loadDb(const std::string& filename) {
-
-	Input in;
-	return in.input(filename);
-}
-
-void saveDb(std::shared_ptr<DataBase> db, const std::string& filename) {
-
-	Output out;
-	out.output(db, filename);
-}
+#include "InputFiler.h"
+#include <string>
+#include "OperationWithDataBase.h"
 
 //std::shared_ptr<object> createEntity(const int typeId, const int objectId, const std::string& name) {
 //
@@ -75,34 +22,75 @@ void saveDb(std::shared_ptr<DataBase> db, const std::string& filename) {
 //	db->addObject(typeId, objectId, obj);
 //}
 
-void removeEntity(std::shared_ptr<DataBase> db, const int typeId, const int objectId) {
-	db->removeObject(typeId, objectId);
-}
 
-void listEntities(std::shared_ptr<DataBase> db) {
-	
 
-	for (int i = 0; i != db->typeAndObjectIds.size(); ++i) {
+void operationWithDataBase(std::shared_ptr<DataBase> db) {
 
-		int typeId = db->typeIds[i];
-		std::cout << "typeId" << " " << "objectId" << " " << "name" << std::endl;
+	OperationWithDataBase operDb;
 
-		for (int j = 0; j != db->typeAndObjectIds.at(typeId).size(); ++j) {
+	int mark = 0;
+	std::string infilename;
+	std::string outfilename;
 
-			int objectId = db->typeAndObjectIds.at(typeId)[j];
-			auto obj = db->objects.at(typeId).at(objectId);
-			std::string name = obj->getName();
-			std::cout << typeId << " " << objectId << " " << name << std::endl;
+	while (mark != 6) {
+
+		std::cout << "Operation with data base: " << std::endl;
+		std::cout << "1 - loadDb" << std::endl;
+		std::cout << "2 - saveDb" << std::endl;
+		std::cout << "3 - editEntity" << std::endl;
+		std::cout << "4 - removeEntity" << std::endl;
+		std::cout << "5 - listEntity" << std::endl;
+		std::cout << "6 - exit" << std::endl;
+
+		std::cin >> mark;
+
+
+
+		switch (mark) {
+
+		case 1:
+			std::cout << "Enter file name: " << std::endl;
+			std::cin >> infilename;
+			db = operDb.loadDb(infilename);
+			break;
+
+		case 2:
+			std::cout << "Enter file name: " << std::endl;
+			std::cin >> outfilename;
+			operDb.saveDb(db, outfilename);
+			break;
+
+		case 3:
+			operDb.editEntity(db);
+			break;
+
+		case 4:
+			std::cout << "Enter typeId and objecId" << std::endl;
+			int tId;
+			int oId;
+			std::cin >> tId;
+			std::cin >> oId;
+			operDb.removeEntity(db, tId, oId);
+			break;
+
+		case 5:
+			operDb.listEntities(db);
+			break;
+
+		default:
+			break;
+
 		}
 	}
 }
 
-
 int main() {
 
-	std::shared_ptr<DataBase> dataPtr = loadDb("file2.txt");
-	listEntities(dataPtr);
+	std::shared_ptr<DataBase> db;
 
+	operationWithDataBase(db);
+
+	
 	
 	return 0;
 }
